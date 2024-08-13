@@ -13,6 +13,10 @@ const Port=process.env.Port || 5000;
 
 connctdb(); 
 
+app.use(cors({
+    origin: '*'
+  }));
+
 const app=express();
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
