@@ -8,16 +8,20 @@ import categoryRoutes from './routes/CategoryRoutes.js'
 import productRoutes from './routes/productRoutes.js'
 import uploadRoutes from './routes/uploadRoutes.js'
 import orderRoutes from './routes/OrderRoutes.js'
+import cors from 'cors'
 dotenv.config();
 const Port=process.env.Port || 5000;
 
 connctdb(); 
 
-app.use(cors({
-    origin: '*'
-  }));
 
 const app=express();
+app.use(cors({
+    origin: '*', // Replace with your frontend origin
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Adjust methods as needed
+    allowedHeaders: ['Content-Type', 'Authorization'] // Adjust headers as needed
+  }));
+  
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser());
@@ -26,7 +30,7 @@ app.use('/api/category',categoryRoutes)
 app.use('/api/products',productRoutes)
 app.use('/api/upload',uploadRoutes)
 app.use('/api/orders',orderRoutes)
-app.use('/api/config/paypal',(req,res)=>{
+app.use('/paypal',(req,res)=>{
     res.send({cliendId:process.env.PAYPAL_CLIENT_ID});
 });
 
